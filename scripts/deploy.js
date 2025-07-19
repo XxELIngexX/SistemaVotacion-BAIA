@@ -10,6 +10,10 @@ async function main() {
 
   console.log("Contrato desplegado en:", contrato.target); // .target = dirección en Ethers v6
 
+  // Obtener cantidad de propuestas
+  const cantidad = await contrato.getCantidadPropuestas();
+  console.log("Cantidad de propuestas:", cantidad.toString());
+
   // Imprimir propuestas desde el contrato
   for (let i = 0; i < propuestas.length; i++) {
     const propuesta = await contrato.propuestas(i);

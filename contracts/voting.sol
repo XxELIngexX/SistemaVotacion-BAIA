@@ -46,6 +46,11 @@ contract SistemaVotacion {
     }
 
     // Función para votar por una propuesta usando su índice
+
+    function getCantidadPropuestas() public view returns (uint) {
+        return propuestas.length;
+    }
+
     function votar(uint propuestaIndex) public {
         require(eleccionesAbiertas,"lo sentimos, las elecciones ya se cerraron");
         require(!yaVoto[msg.sender], "Solo puedes votar una vez.");
