@@ -1,13 +1,20 @@
-# Sample Hardhat Project
+# Sistema de Votaciones 
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
-
-Try running some of the following tasks:
+instalaciones necesarias:
+Instalar Node.js desde https://nodejs.org (si no lo tienes ya)
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
+npm install --save-dev hardhat
+npm install --save-dev @nomicfoundation/hardhat-toolbox
+npm install ethers
+npm create vite@latest
+```
+
+esta es una lista de comandos para ejecutar si se va a correr el proyecto
+```shell
+npx hardhat clean // si se hacen cambios estructurales + (opcional) borrar la carpeta artifacts
+npx hardhat compile //compila
+npx hardhat node //levanta un nodo local de hardhat
+npx hardhat run scripts/deploy.js --network localhost //despliega el SC
+npm run dev //para desplegar el front
 ```
