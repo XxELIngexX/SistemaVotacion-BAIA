@@ -1,7 +1,7 @@
 import VotacionesApp from "./VotacionesApp";
-import Login from "./components/Login.jsx";
-import AdminPage from "./components/adminPage.jsx";
-import UserPage from "./components/userPage.jsx";
+import Login from "./layouts/Login.jsx";
+import AdminPage from "./layouts/adminPage.jsx";
+import UserPage from "./layouts/userPage.jsx";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import votacionesAbi from "../../artifacts/contracts/voting.sol/SistemaVotacion.json";

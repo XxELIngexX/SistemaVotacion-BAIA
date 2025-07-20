@@ -1,4 +1,3 @@
-// src/components/UserPage.jsx
 import React from "react";
 
 const UserPage = ({ user }) => {

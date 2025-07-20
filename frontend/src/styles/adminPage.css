@@ -1,0 +1,94 @@
+body {
+    background-color: #1499eb33;
+}
+
+.admin-home {
+    padding: 2rem;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    width: 80%;
+    margin: 0 auto;
+    /* Centra horizontalmente */
+
+}
+
+.admin-header {
+    color: #000000;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+}
+
+.admin-header p {
+    font-size: 1rem;
+    color: #000000;
+}
+
+.admin-panel {
+    display: flex;
+    gap: 2rem;
+}
+
+.election-list {
+    flex: 1;
+    background-color: #ffffff90;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.election-list h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #2b34b5;
+    padding: 0.7rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.crear-btn {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #55cd3a56;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.crear-eleccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}

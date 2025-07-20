@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { useState } from "react";
-import "../css/login.css";
+import "../styles/login.css";
 
 export default function Login({ onLogin }) {
   const [userName, setUserName] = useState("");

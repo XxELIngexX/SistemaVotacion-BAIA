@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
+import "../styles/adminPage.css";
+import EleccionCard from "../components/EleccionCard";
+import Form from "../components/Form";
 
 const AdminPage = ({ user, contrato, setUser }) => {
     const name = user?.name || "Administrador";
     const address = user?.wallet?.address || "Desconocido";
 
     const [elections, setElections] = useState([]);
-    const [selectedElection, setSelectedElection] = useState(null);
+    const [eleccionSeleccionada, setEleccionSeleccionada] = useState(null);
+    const [mostrarModal, setMostrarModal] = useState(false);
+
+
+
 
     consultarElecciones();
 
@@ -49,6 +56,20 @@ const AdminPage = ({ user, contrato, setUser }) => {
         }
     }
 
+    async function crearEleccion(_nombreEleccion,_propuestas) {
+        try {
+            const tx = await contrato.crearEleccion(_nombreEleccion, _propuestas);
+            await tx.wait(); // Esperar a que se mine la transacción
+            console.log("Elección creada correctamente.");
+            setMostrarModal(false);
+            consultarElecciones(); // Recargar las elecciones después de crear una nueva
+        } catch (error) {
+            console.error("Error al crear la elección:", error);
+        }
+    }
+
+    
+
 
 
 
@@ -73,42 +94,47 @@ const AdminPage = ({ user, contrato, setUser }) => {
         <div className="admin-home">
             <div className="admin-header">
                 <h2>Bienvenido, Administrador {name}</h2>
-                <p>Conectado como: {address}</p>
             </div>
+
+            <p style={{ textAlign: "center", width: "100%" }}>
+                Conectado como: {address}
+            </p>
+
 
             <div className="admin-panel" style={{ display: "flex", gap: "2rem" }}>
                 <div className="election-list" style={{ flex: 1 }}>
                     <h3>Lista de Elecciones</h3>
                     {elections.map((e) => (
-                        <div key={e.id} className="election-item" style={{ marginBottom: "1rem" }}>
-                            <strong>{e.name}</strong>
-
-                            <p>Estado: {e.active ? "Activa" : "Inactiva"}</p>
-
-                            <button onClick={() => e.active ? cerrarElecciones(e.id) : abrirElecciones(e.id)}>
-                                {e.active ? "Desactivar" : "Activar"}
-                            </button>
-                            <button onClick={() => setSelectedElection(e)}>
-                                Ver detalles
-                            </button>
-                        </div>
+                        <EleccionCard
+                            key={e.id}
+                            eleccion={e}
+                            onAbrir={abrirElecciones}
+                            onCerrar={cerrarElecciones}
+                        />
                     ))}
                 </div>
-
-                <div className="election-details" style={{ flex: 1 }}>
-                    {selectedElection ? (
-                        <>
-                            <h3>Detalles de {selectedElection.name}</h3>
-                            <p>ID: {selectedElection.id}</p>
-                            <p>Estado actual: {selectedElection.active ? "Activa" : "Inactiva"}</p>
-                            <button>Agregar Propuesta</button>
-                            <button>Eliminar Propuesta</button>
-                        </>
-                    ) : (
-                        <p>Selecciona una elección para ver detalles.</p>
-                    )}
-                </div>
             </div>
+
+            <div className="crear-eleccion">
+                <button onClick={() => setMostrarModal(true)} className="crear-btn">
+                    Crear nueva elección
+                </button>
+            </div>
+
+
+            {mostrarModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Crear Nueva Elección</h3>
+                        <Form 
+                            setMostrarModal={setMostrarModal} 
+                            crearEleccion={crearEleccion}
+                        />
+                        
+                    </div>
+                </div>
+            )}
+
         </div>
 
     );
