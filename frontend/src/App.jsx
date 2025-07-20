@@ -11,8 +11,8 @@ const contratoAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 function App() {
   const [user, setUser] = useState(null);
   const [contrato, setContrato] = useState(null);
-  const [error, setError] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function conectarContrato() {
@@ -42,7 +42,7 @@ function App() {
 
       } catch (err) {
         console.error("Error conectando contrato:", err);
-        setError("No se pudo conectar con el contrato.");
+        // setError("No se pudo conectar con el contrato.");
       }
     }
 

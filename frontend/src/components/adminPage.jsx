@@ -7,23 +7,60 @@ const AdminPage = ({ user, contrato, setUser }) => {
     const [elections, setElections] = useState([]);
     const [selectedElection, setSelectedElection] = useState(null);
 
+    consultarElecciones();
+
+    async function consultarElecciones() {
+        try {
+            const electionList = await contrato.obtenerElecciones();
+
+            const parsedElections = electionList.map((e, index) => ({
+                id: index,
+                name: e[0],
+                active: e[1],
+                proposals: e[2],
+                votes: e[3],
+            }));
+
+            setElections(parsedElections);
+        } catch (error) {
+            console.error("Error al consultar elecciones:", error);
+        }
+    }
+
+    async function abrirElecciones(indice) {
+        try {
+            const tx = await contrato.abrirEleccion(indice);
+            await tx.wait(); // Esperar a que se mine la transacción
+            console.log(`Elección ${indice} abierta correctamente.`);
+            // Aquí puedes volver a cargar las elecciones si deseas actualizar la vista
+        } catch (error) {
+            console.error(`Error al abrir la elección ${indice}:`, error);
+        }
+    }
+
+    async function cerrarElecciones(indice) {
+        try {
+            const tx = await contrato.cerrarEleccion(indice);
+            await tx.wait(); // Esperar a que se mine la transacción
+            console.log(`Elección ${indice} abierta correctamente.`);
+            // Aquí puedes volver a cargar las elecciones si deseas actualizar la vista
+        } catch (error) {
+            console.error(`Error al abrir la elección ${indice}:`, error);
+        }
+    }
+
+
+
+
+
     useEffect(() => {
         //conectar con contrato y obtener las elecciones
         if (!contrato) return;
 
         const fetchElections = async () => {
             try {
-                const electionList = await contrato.obtenerElecciones();
+                //abrirElecciones(1);
 
-                const parsedElections = electionList.map((e, index) => ({
-                    id: index,
-                    name: e[0],
-                    active: e[1],
-                    proposals: e[2],
-                    votes: e[3],
-                }));
-
-                setElections(parsedElections);
             } catch (error) {
                 console.error("Error al obtener elecciones:", error);
             }
@@ -46,14 +83,14 @@ const AdminPage = ({ user, contrato, setUser }) => {
                         <div key={e.id} className="election-item" style={{ marginBottom: "1rem" }}>
                             <strong>{e.name}</strong>
 
-                            {/* <p>Estado: {e.active ? "Activa" : "Inactiva"}</p> */}
+                            <p>Estado: {e.active ? "Activa" : "Inactiva"}</p>
 
-                            {/* <button onClick={() => toggleElection(e.id)}>
-            {e.active ? "Desactivar" : "Activar"}
-          </button>
-          <button onClick={() => setSelectedElection(e)}>
-            Ver detalles
-          </button> */}
+                            <button onClick={() => e.active ? cerrarElecciones(e.id) : abrirElecciones(e.id)}>
+                                {e.active ? "Desactivar" : "Activar"}
+                            </button>
+                            <button onClick={() => setSelectedElection(e)}>
+                                Ver detalles
+                            </button>
                         </div>
                     ))}
                 </div>

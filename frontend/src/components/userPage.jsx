@@ -9,5 +9,6 @@ const UserPage = ({ user }) => {
     </div>
   );
 };
-
+// votar
+// ver las elecciones disponibles
 export default UserPage;
