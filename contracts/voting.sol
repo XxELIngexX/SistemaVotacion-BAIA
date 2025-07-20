@@ -30,6 +30,7 @@ contract SistemaVotacion {
     // Evento que se puede emitir si se quieren registrar nuevas propuestas
     event RegistrarPropuesta(string nombre, uint numeroVotos);
 
+
     // Constructor que inicializa las propuestas al desplegar el contrato
     constructor(string[] memory nombrePropuestas) {
         admin = msg.sender;

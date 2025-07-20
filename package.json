@@ -11,6 +11,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.8",
     "abbrev": "^1.0.9",
     "abitype": "^1.0.8",
     "acorn": "^8.15.0",
@@ -346,7 +347,8 @@
     "util-deprecate": "^1.0.2",
     "uuid": "^8.3.2",
     "v8-compile-cache-lib": "^3.0.1",
-    "viem": "^2.32.0",
+    "viem": "^2.32.1",
+    "wagmi": "^2.16.0",
     "web3-utils": "^1.10.4",
     "which": "^2.0.2",
     "which-typed-array": "^1.1.19",

@@ -13,6 +13,7 @@ async function main() {
   // Obtener cantidad de propuestas
   const cantidad = await contrato.getCantidadPropuestas();
   console.log("Cantidad de propuestas:", cantidad.toString());
+  console.log("Admin: ", await contrato.admin());
 
   // Imprimir propuestas desde el contrato
   for (let i = 0; i < propuestas.length; i++) {
