@@ -1,20 +1,75 @@
 import VotacionesApp from "./VotacionesApp";
-import { useState } from "react";
 import Login from "./components/Login.jsx";
+import AdminPage from "./components/adminPage.jsx";
+import UserPage from "./components/userPage.jsx";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import votacionesAbi from "../../artifacts/contracts/voting.sol/SistemaVotacion.json";
+
+const contratoAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [contrato, setContrato] = useState(null);
+  const [error, setError] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function conectarContrato() {
+      try {
+        if (!user) return;
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        const instanciaContrato = new ethers.Contract(
+          contratoAddress,
+          votacionesAbi.abi,
+          signer
+        );
+
+        setContrato(instanciaContrato);
+
+        const adminAddress = await instanciaContrato.admin();
+        const signerAddress = await signer.getAddress();
+        const esAdmin = signerAddress.toLowerCase() === adminAddress.toLowerCase();
+
+        // Actualizamos el objeto `user` incluyendo `isAdmin`
+        setUser(prev => ({
+          ...prev,
+          isAdmin: esAdmin
+        }));
+
+      } catch (err) {
+        console.error("Error conectando contrato:", err);
+        setError("No se pudo conectar con el contrato.");
+      }
+    }
+
+    conectarContrato();
+  }, [user]);
 
   if (!user) {
     return <Login onLogin={setUser} />;
   }
 
   return (
-    <div>
-      <h1>Bienvenido, {user.name} 👋</h1>
-      <p>Conectado como: {user.wallet.address}</p>
-      <VotacionesApp signer={user.wallet.signer} />
-    </div>
+    <>
+      {user.isAdmin ? (
+        <AdminPage
+          user={user}
+          contrato={contrato}
+          setUser={setUser}
+
+        />
+      ) : (
+        <UserPage
+          user={user}
+          contrato={contrato}
+          setUser={setUser}
+        />
+      )}
+    </>
   );
 }
 

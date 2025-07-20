@@ -20,16 +20,16 @@ export default function VotacionesApp({ signer }) {
 
         setContrato(instanciaContrato);
 
-        const total = await instanciaContrato.getCantidadPropuestas();
-        const propuestasTemp = [];
+        // const total = await instanciaContrato.getCantidadPropuestas();
+        // const propuestasTemp = [];
 
-        for (let i = 0; i < total; i++) {
-          const propuesta = await instanciaContrato.propuestas(i);
-          propuestasTemp.push({
-            nombre: propuesta.nombre,
-            votos: propuesta.numeroVotos.toString()
-          });
-        }
+        // for (let i = 0; i < total; i++) {
+        //   const propuesta = await instanciaContrato.propuestas(i);
+        //   propuestasTemp.push({
+        //     nombre: propuesta.nombre,
+        //     votos: propuesta.numeroVotos.toString()
+        //   });
+        // }
 
           // 👇 Aquí comparas la address del signer con la del admin
       const adminAddress = await instanciaContrato.admin();

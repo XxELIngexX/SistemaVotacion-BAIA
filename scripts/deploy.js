@@ -2,30 +2,41 @@ const hre = require("hardhat");
 
 async function main() {
   const SistemaVotacion = await hre.ethers.getContractFactory("SistemaVotacion");
+  const contrato = await SistemaVotacion.deploy();
+  await contrato.waitForDeployment();
 
-  const propuestas = ["Propuesta A", "Propuesta B", "Propuesta C"];
-
-  const contrato = await SistemaVotacion.deploy(propuestas);
-  await contrato.waitForDeployment(); // Usamos esto en Ethers v6
-
-  console.log("Contrato desplegado en:", contrato.target); // .target = dirección en Ethers v6
-
-  // Obtener cantidad de propuestas
-  const cantidad = await contrato.getCantidadPropuestas();
-  console.log("Cantidad de propuestas:", cantidad.toString());
+  console.log("Contrato desplegado en:", contrato.target);
   console.log("Admin: ", await contrato.admin());
 
-  // Imprimir propuestas desde el contrato
-  for (let i = 0; i < propuestas.length; i++) {
-    const propuesta = await contrato.propuestas(i);
-    console.log(`Propuesta ${i}: ${propuesta.nombre}, Votos: ${propuesta.numeroVotos}`);
-  }
+  // Crear elección base: "Menú de la Cafetería"
+  const nombresPropuestas = [
+    "Vegetariano",
+    "Light",
+    "Vegano",
+    "Alto en carbohidratos",
+    "Alto en proteínas"
+  ];
 
-  // (Opcional) Mostrar si las elecciones están abiertas
-  const abiertas = await contrato.eleccionesAbiertas();
-  console.log("¿Elecciones abiertas?:", abiertas);
+  const colores = [
+    "azul",
+    "rojo", 
+    "verde",
+    "amarillo",
+  ]
+
+
+  // Llama a la función crearEleccion
+  const tx = await contrato.crearEleccion("Menú de la Cafetería", nombresPropuestas);
+  await tx.wait();
+
+  const tx1 = await contrato.crearEleccion("Colores Favoritos", colores);
+  await tx1.wait();
+
+  const electionDetails = await contrato.obtenerElecciones();
+  console.log("Elección base creada exitosamente.");
+  console.log("Detalles de la elección base: ", electionDetails);
 }
-
+  
 main().catch((error) => {
   console.error("Error al desplegar:", error);
   process.exitCode = 1;
